@@ -20,11 +20,7 @@ fn main() {
             Err(_) => continue,
         };
 
-        if secret_number_validation > 0 && secret_number_validation < 101 {
-            break;
-        } else {
-            println!("The secret number must be between 1 - 100! Please try again!");
-        }
+        // :(
     }
 
     println!("The secret number has been set to: {}", secret_number.trim());
