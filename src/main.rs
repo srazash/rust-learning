@@ -8,11 +8,24 @@ fn main() {
 
     let mut secret_number = String::new();
     let mut guess_count: u32 = 0;
-
+    
     println!("Welcome to the reverse guessing game!");
     println!("Please provide a secret number between 1 - 100:");
 
-    io::stdin().read_line(&mut secret_number).expect("Error!");
+    loop {
+        io::stdin().read_line(&mut secret_number).expect("Error!");
+
+        let secret_number_validation: u32 = match secret_number.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
+        if secret_number_validation > 0 && secret_number_validation < 101 {
+            break;
+        } else {
+            println!("The secret number must be between 1 - 100! Please try again!");
+        }
+    }
 
     println!("The secret number has been set to: {}", secret_number.trim());
 
@@ -24,20 +37,16 @@ fn main() {
             Err(_) => continue,
         };
 
-        if secret_number < 1 || secret_number > 100 {
-            println!("The secret number must be between 1 - 100! Please try again!");
-            break;
-        } else {
-            match secret_number.cmp(&guess) {
+        match secret_number.cmp(&guess) {
             Ordering::Less => { println!("GUESS #{}: The computer guessed {}, which was too low!", guess_count, guess); guess_count += 1; },
             Ordering::Greater => { println!("GUESS #{}: The computer guessed {}, which was too high!", guess_count, guess); guess_count += 1; },
             Ordering::Equal => {
                 println!("The computer guessed {} which is CORRECT!", guess);
-                println!("The computer got the correct number after {} guesses!", guess_count);
+                println!("The computer got the correct number after {} GUESSES!", guess_count);
                 break;
-                },
-            }
+            },
         }
+        
         
     }
 }
