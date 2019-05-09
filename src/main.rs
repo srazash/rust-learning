@@ -12,17 +12,17 @@ fn main() {
     println!("Please provide a secret number between 1 - 100:");
     
     loop {
-        let mut sn = secret_number.to_string();
+        secret_number = "0".to_string();
 
-        io::stdin().read_line(&mut sn).expect("Error!");
+        io::stdin().read_line(&mut secret_number).expect("Error!");
 
-        let secret_number_validation: u32 = match sn.trim().parse() {
+        let secret_number_validation: u32 = match secret_number.trim().parse() {
             Ok(num) => num,
             Err(_) => continue,
         };
 
         if secret_number_validation >= 1 && secret_number_validation <= 100 {
-            secret_number = sn.to_string();
+            secret_number = secret_number.to_string();
             break;
         } else {
             println!("Please provide a secret number between 1 - 100:");
