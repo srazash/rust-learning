@@ -37,18 +37,28 @@ fn main() {
     // loop to guess what the secret number is, will loop until the randomly guessed value matches the user inputted secret number
     // THERE IS A MAJOR ISSUE WITH THIS AS IT CURRENTLY CAN GUESS INCORRECT VALUES MULTIPLE TIMES!
     loop {
-        let guess: u32 = rand::thread_rng().gen_range(1, 101);
+        let mut guess: u32 = 0;
+        let secret_number: u32 = match secret_number.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
 
         // add the random guess to the vector
         // we want to compare the current guess against previous guesses
         // if the guess hasn't occured before allow the loop to continue
         // otherwise we need to regen the guess
-        rand_guess.push(guess);
+        loop {
+            guess = rand::thread_rng().gen_range(1, 101);
 
-        let secret_number: u32 = match secret_number.trim().parse() {
-            Ok(num) => num,
-            Err(_) => continue,
-        };
+            for i in rand_guess.iter() {
+                if i == &guess {
+                    continue;
+                } else {
+                    rand_guess.push(guess);
+                    break;
+                }
+            }
+        }
 
         match secret_number.cmp(&guess) {
             Ordering::Less => { println!("GUESS #{}: The computer guessed {}, which was too high!", guess_count, guess); guess_count += 1; },
