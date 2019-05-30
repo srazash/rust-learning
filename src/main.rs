@@ -7,6 +7,7 @@ use rand::Rng;
 fn main() {
     let mut secret_number = String::new();
     let mut guess_count: u32 = 0;
+    let mut rand_guess: Vec<u32> = Vec::new();
 
     println!("Welcome to the reverse guessing game!");
     println!("Please provide a secret number between 1 - 100:");
@@ -34,9 +35,15 @@ fn main() {
     println!("The secret number has been set to: {}", secret_number.trim());
 
     // loop to guess what the secret number is, will loop until the randomly guessed value matches the user inputted secret number
-    // THERE IS A MAJOR ISSUE WITH THIS AS IT CURRENTLY CAN GUESS INCORECT VALUES MULTIPLE TIMES!
+    // THERE IS A MAJOR ISSUE WITH THIS AS IT CURRENTLY CAN GUESS INCORRECT VALUES MULTIPLE TIMES!
     loop {
         let guess: u32 = rand::thread_rng().gen_range(1, 101);
+
+        // add the random guess to the vector
+        // we want to compare the current guess against previous guesses
+        // if the guess hasn't occured before allow the loop to continue
+        // otherwise we need to regen the guess
+        rand_guess.push(guess);
 
         let secret_number: u32 = match secret_number.trim().parse() {
             Ok(num) => num,
